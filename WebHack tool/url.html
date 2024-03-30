@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Based URL</title>
+  <style>
+      .profile-card {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 50px;
+  }
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .profile-info img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .profile-info h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Token Based URL</h1>
+  </header>
+
+  <button onclick="redirectToURL()">Generate Token and Redirect</button>
+ <!-- Profile Section -->
+ <div class="profile-card">
+  <div class="profile-info">
+    <img src="https://media.licdn.com/dms/image/D5603AQE8DRYBgV-oQw/profile-displayphoto-shrink_200_200/0/1692284344933?e=2147483647&v=beta&t=_0A6ZrwjwinGKtMiIqv3ojnrF6aST6y5MlRkEUeCkHg" alt="Profile Picture">
+    <div>
+      <h2>Kiran Singh</h2>
+      <p>Cybersecurity & IoT Researcher</p>
+      <p>Kasaragod, Kerala, India</p>
+    </div>
+  </div>
+</div>
+</div>
+  <script>
+    function generateToken() {
+      // Get current time in milliseconds
+      const currentTime = new Date().getTime();
+
+      // Create a random number to add uniqueness to the token
+      const random = Math.floor(Math.random() * 10000);
+
+      // Combine current time and random number to create the token
+      const token = currentTime + '-' + random;
+
+      return token;
+    }
+
+    function redirectToURL() {
+      // Specify the URL to redirect to
+      const url = 'https://example.com/';
+
+      // Generate token
+      const token = generateToken();
+
+      // Append token as a query parameter to the URL
+      const urlWithToken = url + '?token=' + token;
+
+      // Redirect to the URL with the token
+      window.location.href = urlWithToken;
+    }
+  </script>
+
+</body>
+</html>

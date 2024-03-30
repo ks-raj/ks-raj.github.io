@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiran Web Hacks tool V 2.0 </title>
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #111;
+    color: lime;
+    font-family: monospace;
+  }
+  .output {
+    height: 200px;
+  }
+  .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  .btn:hover {
+    background-color: #6045a0;
+  }
+  .profile-card {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 50px;
+  }
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .profile-info img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .profile-info h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body class="py-12">
+
+<div class="max-w-3xl mx-auto px-7">
+  <h1 class="text-3xl font-bold text-center mb-6">Cyber-Crush Web Hacks tool 1.0 </h1>
+  <div class="flex justify-center mb-9">
+    <input type="text" id="urlInput" placeholder="Enter URL" class="mr-4 px-6 py-2 border border-lime-1000 rounded">
+    <button onclick="hack()" class="btn">Hack</button>
+  </div>
+  <div class="output bg-gray-800 text-white p-4 rounded overflow-y-auto" id="output">
+    <p class="italic">Initializing hack sequence...</p>
+  </div>
+
+  <!-- Profile Section -->
+  <div class="profile-card">
+    <div class="profile-info">
+      <img src="https://media.licdn.com/dms/image/D5603AQE8DRYBgV-oQw/profile-displayphoto-shrink_200_200/0/1692284344933?e=2147483647&v=beta&t=_0A6ZrwjwinGKtMiIqv3ojnrF6aST6y5MlRkEUeCkHg" alt="Profile Picture">
+      <div>
+        <h2>Kiran Singh</h2>
+        <p>Cybersecurity & IoT Researcher</p>
+        <p>Kasaragod, Kerala, India</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function hack() {
+    const url = document.getElementById('urlInput').value;
+    if (!url) {
+      alert('Please enter a URL.');
+      return;
+    }
+
+    const outputElement = document.getElementById('output');
+    const messages = [
+      'Accessing mainframe...',
+      'Bypassing firewall...',
+      'Decrypting security protocols...',
+      'Injecting malware...',
+      'Downloading data...',
+      'Hacking complete. Data compromised.'
+    ];
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i >= messages.length) {
+        clearInterval(interval);
+      } else {
+        outputElement.innerHTML += `<p>${messages[i]}</p>`;
+        outputElement.scrollTop = outputElement.scrollHeight;
+        i++;
+      }
+    }, 2000);
+  }
+</script>
+
+<footer>
+    <center><p>&copy: Kiran Tech <br>
+        Hack the Rich : Feed the Poor
+    </p>></center>
+</footer>
+</body>
+</html>
