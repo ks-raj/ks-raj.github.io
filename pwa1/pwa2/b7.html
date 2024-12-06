@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Text Analysis</title>
+  <script>
+    function analyzeText() {
+      var text = document.getElementById("textInput").value;
+      var characters = text.length;
+      var words = text.trim().split(/\s+/).length;
+      var lines = text.split("\n").length;
+      alert("Characters: " + characters + "\nWords: " + words + "\nLines: " + lines);
+    }
+  </script>
+</head>
+<body>
+  <h1>Text Analysis</h1>
+  <textarea id="textInput" rows="5" cols="30" placeholder="Enter text here..."></textarea><br>
+  <button onclick="analyzeText()">Submit</button>
+</body>
+</html>

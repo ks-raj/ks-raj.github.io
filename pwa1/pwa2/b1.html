@@ -1,0 +1,48 @@
+1.	Write an HTML page that contains a selection box with a list of 5 countries. When the user selects a country, its capital should be printed next to the list. Add CSS to customize the properties of the font of the capital (color, bold and font size).
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capitals of Countries</title>
+    <style>
+        p {
+            color: red;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h2>Select a Country:</h2>
+        <select id="country" onchange="displayCapital()">
+            <option value="">--SELECT--</option>
+            <option value="india">India</option>
+            <option value="china">China</option>
+            <option value="pakistan">Pakistan</option>
+            <option value="bangladesh">Bangladesh</option>
+            <option value="japan">Japan</option>
+        </select>
+
+        <h3>Capital is:</h3>
+        <p id="capt">Please select a country</p>
+    </center>
+
+    <script>
+        function displayCapital() {
+            const capitals = {
+                india: "NEW DELHI",
+                china: "BEIJING",
+                pakistan: "ISLAMABAD",
+                bangladesh: "DHAKA",
+                japan: "TOKYO"
+            };
+            const country = document.getElementById("country").value;
+            document.getElementById("capt").innerText = capitals[country] || "Please select a country";
+        }
+    </script>
+</body>
+</html>

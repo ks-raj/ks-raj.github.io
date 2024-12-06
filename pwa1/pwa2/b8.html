@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center" >Student Record Form</h2>
+    <form id="studentForm" onsubmit="return validateForm()">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="rollNumber">Roll Number:</label>
+        <input type="text" id="rollNumber" name="rollNumber" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="contact">Contact Number:</label>
+        <input type="number" id="contact" name="contact" required>
+        
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required>
+        
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        function validateForm() {
+            let name = document.getElementById("name").value;
+            let rollNumber = document.getElementById("rollNumber").value;
+            let email = document.getElementById("email").value;
+            let contact = document.getElementById("contact").value;
+
+            if (name === "") {
+                alert("Name must be filled out.");
+                return false;
+            }
+            if (rollNumber === "") {
+                alert("Roll number must be filled out.");
+                return false;
+            }
+            if (email === "") {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+            if (contact.length !== 10 || isNaN(contact)) {
+                alert("Please enter a valid 10-digit contact number.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

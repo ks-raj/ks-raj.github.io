@@ -1,0 +1,78 @@
+<html>
+<head>
+  <title>Simple Dropdown Menu</title>
+  <style>
+    nav {
+      background-color: #017575;
+      padding: 10px;
+    }
+
+    .menu-btn {
+      background-color: #040008;
+      color: white;
+      padding: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .menu-btn:hover {
+      background-color: #333;
+    }
+
+    .links {
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #3ff360;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+   .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="links" href="#">Home</a>
+    <a class="links" href="#">Services</a>
+    <a class="links" href="#">Products</a>
+    
+    <div class="dropdown">
+      <button class="menu-btn">Dropdown</button>
+      <div class="dropdown-content">
+        <a href="#">Contact Us</a>
+        <a href="#">Visit Us</a>
+        <a href="#">About Us</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>
+
