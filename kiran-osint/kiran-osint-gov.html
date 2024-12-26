@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern OSINT Search Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://hackerassociate.com/wp-content/uploads/fbrfg/favicon-32x32.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://ks-raj.github.io/kiran-osint/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@1.20.0/dist/full.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <style>
+        body {
+            font-family: Courier New, monospace;
+            background-color: #1a202c;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            font-weight: 500;
+        }
+        header, footer {
+            text-align: center;
+            padding: 20px;
+            margin: 0 auto;
+            margin-right:auto;
+        }
+        .clients-section {
+            padding: 40px 0;
+            text-align: center;
+        }
+        .swiper-container {
+            max-width: 500px;
+            margin: 5px auto;
+           
+            
+
+        }
+        .swiper-slide {
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            height: auto;
+            
+        }
+        .swiper-slide img {
+            max-height: 80px;
+            object-fit: contain;
+        }
+        .dropdown-btn { 
+            background-color: #333; 
+            color: rgb(235, 225, 225); 
+            padding: 10px; 
+            width: 100%; 
+            text-align: left; 
+            cursor: pointer; 
+        }
+        .dropdown-content { 
+            display: none; 
+            padding: 10px; 
+            background-color: #122542; 
+            border: 1px solid #faf6f6; 
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Modern OSINT Search Tool</h1>
+    <p>Explore Open Source Intelligence resources with ease</p>
+    
+    <section class="clients-section">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/jharkhand-police.svg" alt="Client 01"></div>
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/ap-police.png" alt="Client 02"></div>
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/ts-police.png" alt="Client 03"></div>
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/up-police.png" alt="Client 04"></div>
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/hp-police.png" alt="Client 05"></div>
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/kr-police.png" alt="Client 06"></div>
+                <div class="swiper-slide"><img src="https://cdrsoftwares.com/images/mumbai-police.png" alt="Client 07"></div>
+                <div class="swiper-slide"><img src="https://seeklogo.com/images/G/gujarat-police-logo-0CD7C3773E-seeklogo.com.png" alt="Client 09"></div>
+                <div class="swiper-slide"><img src="https://th.bing.com/th/id/R.32a60ef61f2ee2a77c2059a3ad503f8f?rik=S1E%2blVxQ%2fr0vEg&riu=http%3a%2f%2fwww.secureindia.in%2fwp-content%2fuploads%2f2015%2f03%2f2000px-Cbi_logo.svg_.png&ehk=P2bap3EFWrAv9Uwg%2fVc9mc5wZp%2f6b9kqC5BLFSUmDwU%3d&risl=&pid=ImgRaw&r=0" alt="Client 10"></div>
+            </div>
+        </div>
+      
+    </section>
+</header>
+<div class="tabs">
+    <button id="tab1" class="active" onclick="showTab('tab1')" style="color: rgb(9, 1, 14);">
+        Built by <a href="https://in.linkedin.com/in/cybercrush" target="_blank" style="color: #0c20cf; text-decoration: none;">Kiran Singh</a>, this open-source tool empowers law enforcement with the intelligence they need, free and open to all.
+    </button>
+</div>
+<br>
+<hr>
+
+<div class="container" id="content">
+    <!-- Dynamic content will be injected here based on tab selection -->
+</div>
+
+</section>
+<!-- FAQ Section -->
+<section id="faq" class="faq-section py-12 px-6">
+    <h2 class="text-2xl font-semibold mb-4">Frequently Asked Questions</h2>
+    <div class="space-y-4">
+        <div>
+            <button class="dropdown-btn"> Who created this tool?
+            </button>
+            <div class="dropdown-content">
+                <p><div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="light" data-type="HORIZONTAL" data-vanity="cybercrush" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/cybercrush?trk=profile-badge"></a></div>
+                    The OSINT Framework was developed by Kiran Singh Rajpurohit, a recognized professional in the field of Open Source Intelligence (OSINT). This tool was created to provide free and accessible intelligence resources to law enforcement agencies, security professionals, and individuals working within legal frameworks.
+                </p>
+            </div>
+        </div>
+        <div>
+            <button class="dropdown-btn">Is this tool free to use?</button>
+            <div class="dropdown-content">
+                <p>Yes, the OSINT Framework is a free, open-source tool available to everyone. It has been designed to be accessible to both individual users and institutions such as law enforcement, private security companies, and government agencies without any charges.</p>
+            </div>
+        </div>
+        <div>
+            <button class="dropdown-btn">What about the logos and trademarks used in the tool?</button>
+            <div class="dropdown-content">
+                <p>The logos and trademarks featured in the OSINT Framework are the property of their respective owners and are used for reference purposes only. These logos do not imply any endorsement or affiliation with the OSINT Framework. Users are advised to comply with copyright and trademark laws when using or distributing this tool.</p>
+            </div>
+        </div>
+        <div>
+            <button class="dropdown-btn">Is the OSINT Framework secure?</button>
+            <div class="dropdown-content">
+                <p>Yes, the OSINT Framework is designed with security in mind. However, since it is a tool for accessing publicly available data, the security of the data sources and external links is not controlled by the OSINT Framework itself. Users are encouraged to ensure they follow cybersecurity best practices when accessing external platforms or using the data gathered.</p>
+            </div>
+        </div>
+    </div>
+    
+</section>
+<footer class="footer py-4 bg-gray-800 text-white">
+    <p>&copy; 2025 OSINT Framework by <a href="https://in.linkedin.com/in/cybercrush" target="_blank" style="color: #2ee9ba; text-decoration: none;">Kiran Singh Rajpurohit</a> | All rights reserved</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+     const swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 10,
+                disableOnInteraction: false,
+            },
+            slidesPerView: 3,
+            centeredSlides: false,
+            speed: 400,
+            
+        });
+
+    // Dropdown toggle for FAQ section
+    const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+    dropdownBtns.forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+</script>
+
+<script src="https://ks-raj.github.io/kiran-osint/script.js"></script>
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+
+</body>
+</html>
