@@ -179,6 +179,12 @@ document.querySelectorAll('img').forEach(img => {
         e.preventDefault();
     });
 });
+
+ // Disable Ctrl + U (View Source)
+        if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault(); // Prevent Ctrl + U
+        }
+    });
 </script>
 
  <script src="script.js"></script>
