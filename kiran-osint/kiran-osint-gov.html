@@ -161,26 +161,21 @@
         });
     });
 
+</script>
+<script>
     // Disable right-click
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault(); // Prevent right-click menu
-});
-
-// Disable F12 key (Developer Tools)
-document.addEventListener('keydown', function(e) {
-    if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
-        e.preventDefault(); // Prevent F12 and Ctrl + Shift + I
-    }
-});
-
-// Disable right-click on images or other elements if needed
-document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); // Prevent right-click menu
     });
-});
 
- // Disable Ctrl + U (View Source)
+    // Disable F12 key (Developer Tools)
+    document.addEventListener('keydown', function(e) {
+        // Disable F12 and Ctrl + Shift + I
+        if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
+            e.preventDefault(); // Prevent F12 and Ctrl + Shift + I
+        }
+
+        // Disable Ctrl + U (View Source)
         if (e.ctrlKey && e.keyCode === 85) {
             e.preventDefault(); // Prevent Ctrl + U
         }
