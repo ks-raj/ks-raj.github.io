@@ -1,0 +1,358 @@
+# PART - A
+
+## 1) ESP8266 LED Control
+
+```cpp
+#include <ESP8266WiFi.h>      // Wi-Fi library for ESP8266
+#include <ESP8266WebServer.h> // Web server library
+
+const char* ssid = "kiran";           // Wi-Fi Name (SSID)
+const char* password = "mkdirhacker"; // Wi-Fi Password
+
+const int ledPin = D1;      // LED connected to GPIO5 (D1)
+bool ledState = LOW;        // Default LED state is OFF
+
+ESP8266WebServer server(80); // Web server on port 80
+
+void setup() {
+    Serial.begin(115200);
+    WiFi.begin(ssid, password);
+    pinMode(ledPin, OUTPUT);
+
+    Serial.print("Connecting to Wi-Fi");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.print(".");
+    }
+    Serial.println("\nConnected! IP: " + WiFi.localIP().toString());
+
+    server.on("/", []() { 
+        server.send(200, "text/html", 
+        "<h1>ESP8266 LED Control</h1>"
+        "<p>LED is " + String(ledState ? "ON" : "OFF") + "</p>"
+        "<a href='/toggle'><button>Toggle LED</button></a>");
+    });
+
+    server.on("/toggle", []() { 
+        ledState = !ledState;
+        digitalWrite(ledPin, ledState);
+        server.sendHeader("Location", "/", true);
+        server.send(303);
+    });
+
+    server.begin();
+}
+
+void loop() {
+    server.handleClient();
+}
+```
+
+## 2) LDR Sensor ESP Web
+
+```cpp
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+const char* ssid = "kiran";
+const char* password = "mkdirhacker";
+
+ESP8266WebServer server(80);
+
+void handleRoot() {
+    int ldrValue = digitalRead(D1);
+    String html = "<html><body>"
+                  "<h1>ESP8266 LDR Sensor Data</h1>"
+                  "<p>LDR Value: <strong>" + String(ldrValue) + "</strong></p>"
+                  "<button onclick=\"location.href='/'\">Refresh</button>"
+                  "</body></html>";
+    server.send(200, "text/html", html);
+}
+
+void setup() {
+    Serial.begin(115200);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.print(".");
+    }
+    Serial.println("\nWi-Fi Connected!");
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+
+    server.on("/", handleRoot);
+    server.begin();
+}
+
+void loop() {
+    server.handleClient();
+}
+```
+
+## 3) DHT ESP32
+
+```cpp
+#include <ESP8266WiFi.h>
+#include <DHT.h>
+
+const char* ssid = "kiran";
+const char* password = "mkdirhacker";
+
+#define DHTPIN D1      
+#define DHTTYPE DHT11  
+DHT dht(DHTPIN, DHTTYPE);
+
+WiFiServer server(80);
+
+void setup() {
+    Serial.begin(115200);
+    dht.begin();
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) { delay(500); Serial.print("."); }
+    Serial.println("\nWi-Fi Connected!");
+    Serial.println("IP Address: " + WiFi.localIP().toString());
+    server.begin();
+}
+
+void loop() {
+    WiFiClient client = server.available();
+    if (!client) return;
+
+    float temp = dht.readTemperature();
+    float hum = dht.readHumidity();
+
+    if (isnan(temp) || isnan(hum)) { temp = 0; hum = 0; }
+
+    String html = "<h1>DHT11 Sensor Data</h1>"; 
+    html += "<p>Temperature: " + String(temp) + " &#8451;</p>";
+    html += "<p>Humidity: " + String(hum) + " %</p>";
+
+    Serial.println(temp);
+    Serial.println(hum);
+    client.println("HTTP/1.1 200 OK\nContent-Type: text/html\n\n" + html);
+    client.stop();
+}
+```
+
+## 4) IR Sensor
+
+```cpp
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+const char* ssid = "kiran";
+const char* password = "mkdirhacker";
+
+ESP8266WebServer server(80);
+const int irPin = D1;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(irPin, INPUT);
+  WiFi.begin(ssid, password);
+  Serial.println("Connecting to WiFi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected to WiFi!");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+  server.on("/", handleRoot);
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+}
+
+void handleRoot() {
+  int irValue = digitalRead(irPin);
+  Serial.println("IR Sensor Value: " + String(irValue));
+  String html = "<h1>IR Sensor</h1>";
+  html += "<p>Value: <strong>" + String(irValue) + "</strong></p>";
+  server.send(200, "text/html", html);
+}
+```
+
+The code you provided looks perfectly fine without any modifications. Here it is, formatted and ready for uploading to GitHub:
+
+---
+
+### **Part B**
+
+---
+
+#### **5. Ultrasonic Sensor Distance Measurement with ThingSpeak**
+
+```cpp
+#include <ESP8266WiFi.h>
+#include <ThingSpeak.h>
+
+// Wi-Fi Credentials
+const char* ssid = "kiran";
+const char* password = "mkdirhacker";
+
+// ThingSpeak Configuration
+unsigned long channel = 2799501;
+const char* apiKey = "JR17N28B1IVLR2GD";
+
+// Ultrasonic Sensor Pins
+#define TRIG D1
+#define ECHO D2
+
+WiFiClient client;
+
+void setup() {
+    Serial.begin(115200);
+
+    // Connect to Wi-Fi
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.print(".");
+    }
+    Serial.println("\nWiFi Connected!");
+
+    // Setup Ultrasonic Sensor
+    pinMode(TRIG, OUTPUT);
+    pinMode(ECHO, INPUT);
+
+    // Start ThingSpeak
+    ThingSpeak.begin(client);
+}
+
+// Function to Measure Distance
+float getDistance() {
+    digitalWrite(TRIG, LOW); delayMicroseconds(2);
+    digitalWrite(TRIG, HIGH); delayMicroseconds(10);
+    digitalWrite(TRIG, LOW);
+
+    return pulseIn(ECHO, HIGH) * 0.017;  // Distance in cm
+}
+
+void loop() {
+    float distance = getDistance();
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+
+    // Send Data to ThingSpeak
+    ThingSpeak.setField(1, distance);
+    ThingSpeak.writeFields(channel, apiKey);
+
+    delay(1000); // Upload every 10 seconds
+}
+```
+
+---
+
+#### **6. DHT11 Sensor for Temperature and Humidity Measurement with ThingSpeak**
+
+```cpp
+#include <ESP8266WiFi.h>
+#include <DHT.h>
+
+// 🔹 DHT Sensor Setup
+#define DHTPIN D4      
+#define DHTTYPE DHT11  
+DHT dht(DHTPIN, DHTTYPE);
+
+// 🔹 WiFi & ThingSpeak Setup
+const char* ssid     = "kiran";    
+const char* password = "mkdirhacker";
+const char* server   = "api.thingspeak.com";  
+const char* apiKey   = "JR17N28B1IVLR2GD";  
+
+WiFiClient client;
+
+void setup() {
+    Serial.begin(115200);
+    dht.begin();
+
+    // 📡 Connect to WiFi
+    Serial.print("Connecting to WiFi...");
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("\nWiFi Connected!");
+}
+
+void loop() {
+    float temp = dht.readTemperature();
+    float hum  = dht.readHumidity();
+
+    if (isnan(temp) || isnan(hum)) {
+        Serial.println("Sensor Error! Skipping...");
+        return;
+    }
+
+    Serial.print("Temp: "); Serial.print(temp); Serial.print("°C, ");
+    Serial.print("Hum: "); Serial.println(hum);
+
+    // 🔹 Send Data to ThingSpeak
+    if (client.connect(server, 80)) {
+        String url = "/update?api_key=" + String(apiKey) + "&field1=" + String(temp) + "&field2=" + String(hum);
+        client.print("GET " + url + " HTTP/1.1\r\nHost: " + String(server) + "\r\nConnection: close\r\n\r\n");
+        Serial.println("Data Sent!");
+        client.stop();
+    }
+
+    delay(10000); // Wait 10 seconds before sending again
+}
+```
+
+---
+
+#### **7. Ultrasonic Sensor Distance Measurement with LCD Display (Arduino Uno)**
+
+```cpp
+#include <Wire.h>               
+#include <LiquidCrystal_I2C.h>  
+#define TRIG_PIN 9             
+#define ECHO_PIN 10            
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);  // LCD I2C address (0x27 or 0x3F for some models)
+
+void setup() {
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
+    lcd.init();  // Initialize the LCD
+    lcd.backlight();
+    lcd.setCursor(0, 0);
+    lcd.print("Distance Sensor");
+    delay(2000);
+    lcd.clear();
+}
+
+void loop() {
+    long duration;
+    float distance;
+
+    // Generate an ultrasonic pulse
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+
+    // Measure the duration of the echo pulse
+    duration = pulseIn(ECHO_PIN, HIGH);
+    
+    // Convert the duration to distance (Speed of sound = 343 m/s)
+    distance = (duration * 0.0343) / 2;
+
+    // Display the distance on the LCD
+    lcd.setCursor(0, 0);
+    lcd.print("Distance: ");
+    lcd.print(distance);
+    lcd.print(" cm ");
+
+    delay(500);  // Refresh every 500ms
+}
+```
+
+
+
