@@ -1,0 +1,11 @@
+𝗜𝗻𝘁𝗿𝗼𝗱𝘂𝗰𝗶𝗻𝗴 𝗜𝗣𝗗𝗥 𝗔𝗻𝗮𝗹𝘆𝘇𝗲𝗿 – 𝗔 𝗖𝘂𝘁𝘁𝗶𝗻𝗴-𝗘𝗱𝗴𝗲 𝗜𝗻𝘃𝗲𝘀𝘁𝗶𝗴𝗮𝘁𝗶𝗼𝗻 𝗧𝗼𝗼𝗹 
+I’m excited to launch IPDR Analyzer, a modern tool designed for law enforcement, cybersecurity professionals, and digital forensic experts to streamline IPDR (Internet Protocol Detail Record) analysis.
+
+🔍 Key Features:
+✅ IP Lookup & Google Maps Location Search
+✅ Multiple Interactive Map Views
+✅ CSV Upload & Data Visualization
+✅ Advanced Filters & Export Options
+✅ Modern UI with Seamless Navigation
+
+This tool enhances threat intelligence, forensic investigations, and data analysis, making it easier to extract valuable insights from IPDR logs.
