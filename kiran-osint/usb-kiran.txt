@@ -1,0 +1,87 @@
+[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms') | Out-Null
+[System.Windows.Forms.Application]::EnableVisualStyles()
+
+# Create Form
+$form = New-Object System.Windows.Forms.Form
+$form.Text = 'USB Security Tool'
+$form.Size = New-Object System.Drawing.Size(400,250)
+$form.StartPosition = 'CenterScreen'
+
+# Password Label
+$label = New-Object System.Windows.Forms.Label
+$label.Location = New-Object System.Drawing.Point(20,20)
+$label.Size = New-Object System.Drawing.Size(350,20)
+$label.Text = 'Enter Password to Manage USB Access:'
+$form.Controls.Add($label)
+
+# Password Input
+$passwordBox = New-Object System.Windows.Forms.TextBox
+$passwordBox.Location = New-Object System.Drawing.Point(20,50)
+$passwordBox.Size = New-Object System.Drawing.Size(200,20)
+$passwordBox.PasswordChar = '*'
+$form.Controls.Add($passwordBox)
+
+# Status Label
+$statusLabel = New-Object System.Windows.Forms.Label
+$statusLabel.Location = New-Object System.Drawing.Point(20,140)
+$statusLabel.Size = New-Object System.Drawing.Size(350,20)
+$statusLabel.Text = 'USB Status: Checking...'
+$form.Controls.Add($statusLabel)
+
+# Function to Check USB Status
+function Check-USBStatus {
+    $status = Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR' -Name 'Start'
+    if ($status.Start -eq 3) {
+        $statusLabel.Text = 'USB Status: Enabled'
+    } else {
+        $statusLabel.Text = 'USB Status: Disabled'
+    }
+}
+Check-USBStatus
+
+# Enable USB Button
+$enableButton = New-Object System.Windows.Forms.Button
+$enableButton.Location = New-Object System.Drawing.Point(20,80)
+$enableButton.Size = New-Object System.Drawing.Size(120,30)
+$enableButton.Text = 'Enable USB'
+$enableButton.Add_Click({
+    if ($passwordBox.Text -eq 'yourpassword') {
+        Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR' -Name 'Start' -Value 3
+        [System.Windows.Forms.MessageBox]::Show('USB Ports Enabled!','Success')
+        Check-USBStatus
+    } else {
+        [System.Windows.Forms.MessageBox]::Show('Incorrect Password!','Error')
+    }
+})
+$form.Controls.Add($enableButton)
+
+# Disable USB Button
+$disableButton = New-Object System.Windows.Forms.Button
+$disableButton.Location = New-Object System.Drawing.Point(160,80)
+$disableButton.Size = New-Object System.Drawing.Size(120,30)
+$disableButton.Text = 'Disable USB'
+$disableButton.Add_Click({
+    if ($passwordBox.Text -eq 'yourpassword') {
+        Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR' -Name 'Start' -Value 4
+        [System.Windows.Forms.MessageBox]::Show('USB Ports Disabled!','Success')
+        Check-USBStatus
+    } else {
+        [System.Windows.Forms.MessageBox]::Show('Incorrect Password!','Error')
+    }
+})
+$form.Controls.Add($disableButton)
+
+# Exit Button
+$exitButton = New-Object System.Windows.Forms.Button
+$exitButton.Location = New-Object System.Drawing.Point(300,80)
+$exitButton.Size = New-Object System.Drawing.Size(60,30)
+$exitButton.Text = 'Exit'
+$exitButton.Add_Click({
+    $form.Close()
+})
+$form.Controls.Add($exitButton)
+
+# Run Form
+$form.Topmost = $true
+$form.Add_Shown({$form.Activate()})
+[System.Windows.Forms.Application]::Run($form)
