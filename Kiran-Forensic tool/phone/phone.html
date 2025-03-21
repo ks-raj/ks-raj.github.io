@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberCrush Phone Tracker Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body class="bg-gray-900 text-white font-mono">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h1 class="text-4xl font-bold text-center mb-4">CyberCrush Phone Tracker</h1>
+            <div class="mb-6">
+                <input type="text" id="phoneNumber" placeholder="Enter phone number" class="w-full p-2 border border-gray-700 bg-gray-900 rounded-md focus:outline-none focus:border-green-500 text-white">
+                <button onclick="generateDetails()" class="w-full mt-2 p-2 bg-green-500 text-black font-semibold rounded-md hover:bg-green-600 focus:outline-none">Track Number</button>
+            </div>
+            <div id="dashboard" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div class="mt-8">
+                <div id="map" class="h-64 rounded-lg shadow-lg"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Random data generators
+        const names = [ "Kiran","Aarav", "Priya", "Rahul", "Ananya", "Siddharth", "Meera", "Aditi", "Rohan", "Ishita", "Karan"];
+        const carriers = ["Airtel", "Jio", "Vodafone", "BSNL", "Idea", "Vi"];
+        const cities = [
+            { name: "New Delhi", coords: [28.6139, 77.2090] },
+            { name: "Mumbai", coords: [19.0760, 72.8777] },
+            { name: "Bangalore", coords: [12.9716, 77.5946] },
+            { name: "Kolkata", coords: [22.5726, 88.3639] },
+            { name: "Chennai", coords: [13.0827, 80.2707] },
+            { name: "Hyderabad", coords: [17.3850, 78.4867] },
+            { name: "Pune", coords: [18.5204, 73.8567] },
+            { name: "Ahmedabad", coords: [23.0225, 72.5714] },
+            { name: "Jaipur", coords: [26.9124, 75.7873] },
+            { name: "Lucknow", coords: [26.8467, 80.9462] }
+        ];
+        const phoneBrands = {
+            "Samsung": ["Galaxy S21", "Galaxy Note 20", "Galaxy A52"],
+            "Apple": ["iPhone 13", "iPhone 12", "iPhone SE"],
+            "Xiaomi": ["Mi 11", "Redmi Note 10", "Poco X3"],
+            "OnePlus": ["OnePlus 9", "OnePlus 8T", "OnePlus Nord"],
+            "Oppo": ["Find X3", "Reno 6", "A54"]
+        };
+
+        // Function to get a random element from an array
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // Function to generate phone tracking details and display them in the dashboard
+        function generateDetails() {
+            const phoneNumberInput = document.getElementById("phoneNumber").value.trim();
+            if (!phoneNumberInput) {
+                alert("Please enter a phone number to track.");
+                return;
+            }
+
+            // Generate random details
+            const ownerName = getRandomElement(names);
+            const carrier = getRandomElement(carriers);
+            const imei = Math.random().toString().slice(2, 17);
+            const ipAddress = "106.168.1." + Math.floor(Math.random() * 255);
+            const otp = ["143543 - JIO-REX ", "654321 - GM-MAIL", "789012 - IDBI BANK ", "345678 - PW-LIVE"];
+            const recentCalls = [
+                "+91-9876543210",
+                "+91-9988776655",
+                "+91-8643588541",
+                "+91-8722334455"
+            ];
+            const selectedCity = getRandomElement(cities);
+            const device = `${getRandomElement(Object.keys(phoneBrands))} ${getRandomElement(phoneBrands[getRandomElement(Object.keys(phoneBrands))])}`;
+            const region = `${selectedCity.name} Region`;
+            const towerInfo = `Tower ID: 804, Signal Strength: -80 dBm`;
+            const ipdr = `IP Address: ${ipAddress}, Data Usage: 1.2 GB`;
+
+            // Display data on the dashboard
+            const dashboard = document.getElementById("dashboard");
+            dashboard.innerHTML = `
+                <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2">Phone Details</h2>
+                    <p><strong>Phone Number:</strong> <span class="text-green-400">${phoneNumberInput}</span></p>
+                    <p><strong>Owner:</strong> <span class="text-green-400">${ownerName}</span></p>
+                    <p><strong>Carrier:</strong> <span class="text-green-400">${carrier}</span></p>
+                    <p><strong>IMEI:</strong> <span class="text-green-400">${imei}</span></p>
+                    <p><strong>Device:</strong> <span class="text-green-400">${device}</span></p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2">Location Information</h2>
+                    <p><strong>City:</strong> <span class="text-green-400">${selectedCity.name}</span></p>
+                    <p><strong>Region:</strong> <span class="text-green-400">${region}</span></p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2">Recent OTPs</h2>
+                    <ul>
+                        ${otp.map(otp => `<li class="text-green-400">${otp}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2">Recent Calls</h2>
+                    <ul>
+                        ${recentCalls.map(call => `<li class="text-green-400">${call}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2">Tower Information</h2>
+                    <p><strong>Tower Info:</strong> <span class="text-green-400">${towerInfo}</span></p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2">IPDR</h2>
+                    <p><strong>IPDR:</strong> <span class="text-green-400">${ipdr}</span></p>
+                </div>
+            `;
+
+            // Initialize the map with the selected city's coordinates
+            const map = L.map('map').setView(selectedCity.coords, 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            L.marker(selectedCity.coords).addTo(map).bindPopup(`Device Location: ${selectedCity.name}`).openPopup();
+        }
+    </script>
+</body>
+</html

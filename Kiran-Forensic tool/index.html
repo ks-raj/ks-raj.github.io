@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberCrush - Windows Forensic Toolkit</title>
+    <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-gray-800 py-6 shadow-lg">
+            <h1 class="text-4xl font-bold text-center text-green-400">CyberCrush Windows Forensic Toolkit </h1>
+            <br>
+            <h1 class="text-2xl font-bold text-center text-red-400">
+                <a href="https://in.linkedin.com/in/cybercrush?trk=profile-badge" target="_blank" class="hover:underline">
+                    - by Kiran Singh Rajpurohit
+                </a>
+            </h1>
+
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <!-- Case Details Form -->
+            <section class="bg-gray-700 p-8 rounded-lg shadow-lg mb-8">
+                <h2 class="text-2xl font-semibold text-blue-300 mb-6">Case Details</h2>
+                <form id="forensic-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-300 font-medium mb-2" for="caseId">Case ID:</label>
+                        <input type="text" id="caseId" name="caseId" class="w-full p-3 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 font-medium mb-2" for="investigator">Investigator Name:</label>
+                        <input type="text" id="investigator" name="investigator" class="w-full p-3 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 font-medium mb-2" for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 font-medium mb-2" for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="w-full p-3 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 font-medium mb-2">Location:</label>
+                        <input type="text" id="location" name="location" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-500" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 font-medium mb-2">Date & Time:</label>
+                        <input type="text" id="datetime" name="datetime" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-500" disabled>
+                    </div>
+                    <div class="col-span-2 text-right mt-4">
+                        <button type="button" id="scanBtn" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                            Scan & Analyze
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results" class="hidden bg-gray-700 p-8 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-blue-300 mb-6">Scan Results</h2>
+                <div id="result-data" class="space-y-6">
+                    <!-- Dynamic result sections will be appended here -->
+                </div>
+                <div class="text-right mt-6">
+                    <button id="printBtn" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200">
+                        Print Report
+                    </button>
+                </div>
+            </section>
+
+            <!-- Dropdown Menu for Detailed Information -->
+            <section id="dropdown-section" class="mt-8 bg-gray-700 p-4 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold text-blue-300 mb-4">Detailed Report</h2>
+                <label class="block text-gray-300 mb-2" for="dropdown">Select Section:</label>
+                <select id="dropdown" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">-- Choose a section --</option>
+                    <!-- Options will be populated dynamically -->
+                </select>
+                <div id="dropdown-output" class="mt-4 bg-gray-800 p-4 rounded-lg border border-gray-600 text-gray-300 overflow-x-auto">
+                    <!-- Selected section content will be displayed here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 py-4 text-center">
+            <p class="text-gray-400">© 2024 CyberCrush Forensic Tools | Advanced Evidence Analysis</p>
+            <div class="mt-4 flex justify-center">
+                <!-- LinkedIn profile badge -->
+                <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="light" data-type="HORIZONTAL" data-vanity="cybercrush" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/cybercrush?trk=profile-badge">Kiran Singh Rajpurohit</a></div>
+              
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Auto-fill location and date-time
+        document.getElementById("location").value = "Detecting Location...";
+        document.getElementById("datetime").value = new Date().toLocaleString();
+
+        // Fetch system and forensic data
+        document.getElementById("scanBtn").addEventListener("click", async () => {
+            const formData = {
+                caseId: document.getElementById("caseId").value,
+                investigator: document.getElementById("investigator").value,
+                phone: document.getElementById("phone").value,
+                email: document.getElementById("email").value,
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/scan", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData),
+                });
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                document.getElementById("results").classList.remove("hidden");
+                const resultContainer = document.getElementById("result-data");
+                resultContainer.innerHTML = "";
+                const dropdown = document.getElementById("dropdown");
+                dropdown.innerHTML = '<option value="">-- Choose a section --</option>'; // Reset dropdown
+
+                for (const section in data.results) {
+                    const sectionDiv = document.createElement("div");
+                    sectionDiv.innerHTML = `<h3 class="text-xl font-semibold text-blue-300">${section}</h3>
+                    <pre class="bg-gray-800 p-4 rounded-lg border border-gray-600 overflow-x-auto text-gray-300">${data.results[section]}</pre>`;
+                    resultContainer.appendChild(sectionDiv);
+
+                    // Add section to dropdown
+                    const option = document.createElement("option");
+                    option.value = section;
+                    option.textContent = section;
+                    dropdown.appendChild(option);
+                }
+
+                // Display dropdown selection content
+                dropdown.addEventListener("change", () => {
+                    const selectedSection = dropdown.value;
+                    if (selectedSection && data.results[selectedSection]) {
+                        document.getElementById("dropdown-output").textContent = data.results[selectedSection];
+                    } else {
+                        document.getElementById("dropdown-output").textContent = "";
+                    }
+                });
+
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        // Print functionality
+        document.getElementById("printBtn").addEventListener("click", () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>
