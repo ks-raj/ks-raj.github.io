@@ -12,6 +12,22 @@
           padding: 0;
           background-color: #f4f4f4;
       }
+
+      /* Hide the content for mobile devices */
+      @media (max-width: 768px) {
+            body {
+                display: none;
+            }
+            /* You can show a simple message or redirect for mobile devices */
+            body::before {
+                content: "This site is only available on PC and Laptop.";
+                display: block;
+                color: red;
+                text-align: center;
+                font-size: 24px;
+                margin-top: 50px;
+            }
+        }
       /* Header Section */
       .header {
           text-align: center;
@@ -131,7 +147,7 @@
 </div>
 </template>
 
-<script src='/index.js'></script>
+<script src='https://raw.githubusercontent.com/ks-raj/ks-raj.github.io/refs/heads/main/Paid-tool/index.js'></script>
 
 <script async src='https://www.googletagmanager.com/gtag/js?id=UA-3898076-24'></script>
 <script>
