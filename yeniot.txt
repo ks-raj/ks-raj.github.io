@@ -296,57 +296,7 @@ void loop() {
 
     delay(10000); // Wait 10 seconds before sending again
 }
-```
 
----
-
-#### **7. Ultrasonic Sensor Distance Measurement with LCD Display (Arduino Uno)**
-
-```cpp
-#include <Wire.h>               
-#include <LiquidCrystal_I2C.h>  
-#define TRIG_PIN 9             
-#define ECHO_PIN 10            
-
-LiquidCrystal_I2C lcd(0x27, 16, 2);  // LCD I2C address (0x27 or 0x3F for some models)
-
-void setup() {
-    pinMode(TRIG_PIN, OUTPUT);
-    pinMode(ECHO_PIN, INPUT);
-    lcd.init();  // Initialize the LCD
-    lcd.backlight();
-    lcd.setCursor(0, 0);
-    lcd.print("Distance Sensor");
-    delay(2000);
-    lcd.clear();
-}
-
-void loop() {
-    long duration;
-    float distance;
-
-    // Generate an ultrasonic pulse
-    digitalWrite(TRIG_PIN, LOW);
-    delayMicroseconds(2);
-    digitalWrite(TRIG_PIN, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(TRIG_PIN, LOW);
-
-    // Measure the duration of the echo pulse
-    duration = pulseIn(ECHO_PIN, HIGH);
-    
-    // Convert the duration to distance (Speed of sound = 343 m/s)
-    distance = (duration * 0.0343) / 2;
-
-    // Display the distance on the LCD
-    lcd.setCursor(0, 0);
-    lcd.print("Distance: ");
-    lcd.print(distance);
-    lcd.print(" cm ");
-
-    delay(500);  // Refresh every 500ms
-}
-```
 
 
 
