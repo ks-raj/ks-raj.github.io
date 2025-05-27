@@ -2,50 +2,44 @@
 
 ## 1) ESP8266 LED Control
 
-```cpp
-#include <ESP8266WiFi.h>      // Wi-Fi library for ESP8266
-#include <ESP8266WebServer.h> // Web server library
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
 
-const char* ssid = "kiran";           // Wi-Fi Name (SSID)
-const char* password = "mkdirhacker"; // Wi-Fi Password
+const char* ssid = "kiran";
+const char* password = "mkdirhacker";
+const int ledPin = D1;
+bool ledState = LOW;
 
-const int ledPin = D1;      // LED connected to GPIO5 (D1)
-bool ledState = LOW;        // Default LED state is OFF
-
-ESP8266WebServer server(80); // Web server on port 80
+ESP8266WebServer server(80);
 
 void setup() {
-    Serial.begin(115200);
-    WiFi.begin(ssid, password);
-    pinMode(ledPin, OUTPUT);
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  Serial.println("Connected! IP Address: ");
+  Serial.println(WiFi.localIP());
 
-    Serial.print("Connecting to Wi-Fi");
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(1000);
-        Serial.print(".");
-    }
-    Serial.println("\nConnected! IP: " + WiFi.localIP().toString());
+  server.on("/", []() {
+    server.send(200, "text/html",
+      "<h1>LED is " + String(ledState ? "ON" : "OFF") + "</h1>"
+      "<a href='/toggle'><button>Toggle</button></a>");
+  });
 
-    server.on("/", []() { 
-        server.send(200, "text/html", 
-        "<h1>ESP8266 LED Control</h1>"
-        "<p>LED is " + String(ledState ? "ON" : "OFF") + "</p>"
-        "<a href='/toggle'><button>Toggle LED</button></a>");
-    });
+  server.on("/toggle", []() {
+    ledState = !ledState;
+    digitalWrite(ledPin, ledState);
+    server.sendHeader("Location", "/", true);
+    server.send(303);
+  });
 
-    server.on("/toggle", []() { 
-        ledState = !ledState;
-        digitalWrite(ledPin, ledState);
-        server.sendHeader("Location", "/", true);
-        server.send(303);
-    });
-
-    server.begin();
+  server.begin();
 }
 
 void loop() {
-    server.handleClient();
+  server.handleClient();
 }
+
 ```
 
 ## 2) LDR Sensor ESP Web
