@@ -204,59 +204,52 @@ void loop() {
 
 #### **6. DHT11 Sensor for Temperature and Humidity Measurement with ThingSpeak**
 
-```cpp
 #include <ESP8266WiFi.h>
+#include <ThingSpeak.h>
 #include <DHT.h>
 
-// 🔹 DHT Sensor Setup
-#define DHTPIN D4      
-#define DHTTYPE DHT11  
+const char* ssid = "kiran";
+const char* password = "mkdirhacker";
+
+#define DHTPIN D1
+#define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-// 🔹 WiFi & ThingSpeak Setup
-const char* ssid     = "kiran";    
-const char* password = "mkdirhacker";
-const char* server   = "api.thingspeak.com";  
-const char* apiKey   = "JR17N28B1IVLR2GD";  
-
 WiFiClient client;
+unsigned long channel = 2973470;
+const char* apiKey = "OI6L5QQMAOC6RNZO";
 
 void setup() {
-    Serial.begin(115200);
-    dht.begin();
-
-    // 📡 Connect to WiFi
-    Serial.print("Connecting to WiFi...");
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println("\nWiFi Connected!");
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  dht.begin();
+  ThingSpeak.begin(client);
 }
 
 void loop() {
-    float temp = dht.readTemperature();
-    float hum  = dht.readHumidity();
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
 
-    if (isnan(temp) || isnan(hum)) {
-        Serial.println("Sensor Error! Skipping...");
-        return;
-    }
+  if (isnan(t) || isnan(h)) {
+    Serial.println("Failed to read DHT sensor");
+    return;
+  }
 
-    Serial.print("Temp: "); Serial.print(temp); Serial.print("°C, ");
-    Serial.print("Hum: "); Serial.println(hum);
+  // ✅ Correct variable names
+  Serial.print("Temp: ");
+  Serial.print(t);
+  Serial.print(" °C, Humidity: ");
+  Serial.print(h);
+  Serial.println(" %");
 
-    // 🔹 Send Data to ThingSpeak
-    if (client.connect(server, 80)) {
-        String url = "/update?api_key=" + String(apiKey) + "&field1=" + String(temp) + "&field2=" + String(hum);
-        client.print("GET " + url + " HTTP/1.1\r\nHost: " + String(server) + "\r\nConnection: close\r\n\r\n");
-        Serial.println("Data Sent!");
-        client.stop();
-    }
+  ThingSpeak.setField(1, t);
+  ThingSpeak.setField(2, h);
+  ThingSpeak.writeFields(channel, apiKey);
 
-    delay(10000); // Wait 10 seconds before sending again
+  delay(2000);
 }
+
 
 
 
