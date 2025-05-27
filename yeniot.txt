@@ -161,64 +161,43 @@ The code you provided looks perfectly fine without any modifications. Here it is
 
 #### **5. Ultrasonic Sensor Distance Measurement with ThingSpeak**
 
-```cpp
 #include <ESP8266WiFi.h>
 #include <ThingSpeak.h>
 
-// Wi-Fi Credentials
 const char* ssid = "kiran";
 const char* password = "mkdirhacker";
 
-// ThingSpeak Configuration
-unsigned long channel = 2799501;
-const char* apiKey = "JR17N28B1IVLR2GD";
+WiFiClient client;
+unsigned long channel = 2973468;
+const char* apiKey = "L01VCNVR3IOGK9T8";
 
-// Ultrasonic Sensor Pins
 #define TRIG D1
 #define ECHO D2
 
-WiFiClient client;
-
 void setup() {
-    Serial.begin(115200);
-
-    // Connect to Wi-Fi
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(1000);
-        Serial.print(".");
-    }
-    Serial.println("\nWiFi Connected!");
-
-    // Setup Ultrasonic Sensor
-    pinMode(TRIG, OUTPUT);
-    pinMode(ECHO, INPUT);
-
-    // Start ThingSpeak
-    ThingSpeak.begin(client);
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  ThingSpeak.begin(client);
 }
 
-// Function to Measure Distance
 float getDistance() {
-    digitalWrite(TRIG, LOW); delayMicroseconds(2);
-    digitalWrite(TRIG, HIGH); delayMicroseconds(10);
-    digitalWrite(TRIG, LOW);
-
-    return pulseIn(ECHO, HIGH) * 0.017;  // Distance in cm
+  digitalWrite(TRIG, LOW); delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH); delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+  return pulseIn(ECHO, HIGH) * 0.017;
 }
 
 void loop() {
-    float distance = getDistance();
-    Serial.print("Distance: ");
-    Serial.print(distance);
-    Serial.println(" cm");
-
-    // Send Data to ThingSpeak
-    ThingSpeak.setField(1, distance);
-    ThingSpeak.writeFields(channel, apiKey);
-
-    delay(1000); // Upload every 10 seconds
+  float d = getDistance();
+  Serial.println("Distance: " + String(d) + " cm");
+  ThingSpeak.setField(1, d);
+  ThingSpeak.writeFields(channel, apiKey);
+  delay(1000);
 }
+
 ```
 
 ---
